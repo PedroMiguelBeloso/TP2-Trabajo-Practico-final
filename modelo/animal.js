@@ -1,0 +1,11 @@
+import mongoose from "mongoose";
+
+const AnimalSchema = new mongoose.Schema({
+  nombre: { type: String, required: true },
+  especie: { type: String, required: true },
+  edad: { type: Number, required: true },
+  adoptado: { type: Boolean, default: false },
+  fechaIngreso: { type: Date, default: Date.now }
+});
+
+export default mongoose.model("Animal", AnimalSchema);
