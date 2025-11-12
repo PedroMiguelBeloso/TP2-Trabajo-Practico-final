@@ -1,5 +1,5 @@
 import Factory from '../modelo/Factory.js';
-const persistencia = Factory.getPersistencia();
+const { animales: persistencia } = Factory.getPersistencias();
 
 class AnimalesService {
   listar = async () => await persistencia.listar();

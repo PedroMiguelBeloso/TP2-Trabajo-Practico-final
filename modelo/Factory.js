@@ -1,16 +1,17 @@
 // modelo/Factory.js
 import config from '../config.js';
-import AnimalesMem from './DAOs/AnimalesMem.js';
+import AnimalesMem from './DAOs/animalesMem.js';
 import AnimalesMongoDB from './DAOs/animalesMongoDB.js';
 import UsuariosMongoDB from './DAOs/usuariosMongoDB.js';
+import UsuariosMem from './DAOs/usuariosMem.js';
 
 class Factory {
-  static getPersistencia() {
+  static getPersistencias() {
     switch (config.MODO_PERSISTENCIA) {
       case 'MONGODB':
-        return new AnimalesMongoDB(), new UsuariosMongoDB()
+        return { animales: new AnimalesMongoDB(), usuarios: new UsuariosMongoDB() };
       default:
-        return new AnimalesMem();
+        return { animales: new AnimalesMem(), usuarios: new UsuariosMem() };
     }
   }
 }

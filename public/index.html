@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Adopciones - CRUD</title>
+		<link rel="stylesheet" href="/styles.css" />
+	</head>
+	<body>
+		<header>
+			<h1>Adopciones - CRUD Animales y Usuarios</h1>
+			<nav>
+				<button id="tab-animales" class="tab active">Animales</button>
+				<button id="tab-usuarios" class="tab">Usuarios</button>
+			</nav>
+		</header>
+
+		<main>
+			<section id="view-animales" class="view active">
+				<h2>Animales</h2>
+				<form id="form-animal" class="form">
+					<div class="row">
+						<label>Nombre</label>
+						<input name="nombre" required />
+					</div>
+					<div class="row">
+						<label>Especie</label>
+						<select name="especie" required>
+							<option value="Perro">Perro</option>
+							<option value="Gato">Gato</option>
+							<option value="Ave">Ave</option>
+							<option value="Tortuga">Tortuga</option>
+							<option value="Hamster">Hamster</option>
+							<option value="Pez">Pez</option>
+						</select>
+					</div>
+					<div class="row">
+						<label>Edad</label>
+						<input name="edad" type="number" min="0" required />
+					</div>
+					<div class="row">
+						<label>Raza</label>
+						<input name="raza" required />
+					</div>
+					<div class="row">
+						<label>Vacunado</label>
+						<select name="vacunado">
+							<option value="true">Sí</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<button type="submit">Crear animal</button>
+				</form>
+
+				<form
+					id="form-editar-animal"
+					class="form"
+					style="display: none; margin-top: 12px"
+				>
+					<div class="row">
+						<label>Nombre</label>
+						<input name="nombre" required />
+					</div>
+					<div class="row">
+						<label>Especie</label>
+						<select name="especie" required>
+							<option value="Perro">Perro</option>
+							<option value="Gato">Gato</option>
+							<option value="Ave">Ave</option>
+							<option value="Tortuga">Tortuga</option>
+							<option value="Hamster">Hamster</option>
+							<option value="Pez">Pez</option>
+						</select>
+					</div>
+					<div class="row">
+						<label>Edad</label>
+						<input name="edad" type="number" min="0" required />
+					</div>
+					<div class="row">
+						<label>Raza</label>
+						<input name="raza" required />
+					</div>
+					<div class="row">
+						<label>Vacunado</label>
+						<select name="vacunado">
+							<option value="true">Sí</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<div class="row">
+						<label>Adoptado</label>
+						<select name="adoptado">
+							<option value="true">Sí</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<button type="submit">Guardar cambios</button>
+					<button type="button" id="cancelar-editar-animal">Cancelar</button>
+				</form>
+
+				<div class="list-header">
+					<h3>Guardados hasta ahora</h3>
+					<button id="refresh-animales">Refrescar</button>
+				</div>
+				<ul id="lista-animales" class="list"></ul>
+			</section>
+
+			<section id="view-usuarios" class="view">
+				<h2>Usuarios</h2>
+				<form id="form-usuario" class="form">
+					<div class="row">
+						<label>Nombre</label>
+						<input name="nombre" required />
+					</div>
+					<div class="row">
+						<label>Apellido</label>
+						<input name="apellido" required />
+					</div>
+					<div class="row">
+						<label>Correo</label>
+						<input name="correo" type="email" required />
+					</div>
+					<div class="row">
+						<label>Password</label>
+						<input name="password" type="password" required />
+					</div>
+					<div class="row">
+						<label>Fecha Nacimiento</label>
+						<input name="fechaNacimiento" type="date" required />
+					</div>
+					<button type="submit">Crear usuario</button>
+				</form>
+
+				<form
+					id="form-editar-usuario"
+					class="form"
+					style="display: none; margin-top: 12px"
+				>
+					<div class="row">
+						<label>Nombre</label>
+						<input name="nombre" required />
+					</div>
+					<div class="row">
+						<label>Apellido</label>
+						<input name="apellido" required />
+					</div>
+					<div class="row">
+						<label>Correo</label>
+						<input name="correo" type="email" required />
+					</div>
+					<div class="row">
+						<label>Fecha Nacimiento</label>
+						<input name="fechaNacimiento" type="date" required />
+					</div>
+					<button type="submit">Guardar cambios</button>
+					<button type="button" id="cancelar-editar-usuario">Cancelar</button>
+				</form>
+
+				<div class="list-header">
+					<h3>Guardados hasta ahora</h3>
+					<button id="refresh-usuarios">Refrescar</button>
+				</div>
+				<ul id="lista-usuarios" class="list"></ul>
+			</section>
+		</main>
+
+		<footer>
+			<span>Backend: <code id="backend-url"></code></span>
+			<span id="status" class="status">Listo</span>
+		</footer>
+
+		<script src="/app.js"></script>
+	</body>
+</html>
