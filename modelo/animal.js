@@ -7,7 +7,8 @@ const AnimalSchema = new mongoose.Schema({
   raza: { type: String, required: true },
   vacunado: { type: Boolean, required: true },
   adoptado: { type: Boolean, default: false },
-  fechaIngreso: { type: Date, default: Date.now }
+  fechaIngreso: { type: Date, default: Date.now },
+  foto: String
 });
 
 export default mongoose.model("Animal", AnimalSchema);
