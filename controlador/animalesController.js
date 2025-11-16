@@ -27,6 +27,7 @@ class AnimalesController {
 
       const nuevo = await service.crear(data);
       res.status(201).json(nuevo);
+
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: err.message });
@@ -45,20 +46,20 @@ class AnimalesController {
         const actual = await service.obtenerPorId(id);
 
         if (actual && actual.foto) {
-          /*  actual.foto es /uploads/animales/xxx  
-               agregamos "public" para que la ruta apunte al archivo real */
-          const fotoPath = path.join(process.cwd(), "public", actual.foto);
+          /* actual foto tiene forma va a:  /uploads/animales/archivo.png  
+             La concatenamos directo a la raíz del proyecto  */
+          const fotoPath = path.join(process.cwd(), actual.foto);
 
           try {
             if (fs.existsSync(fotoPath)) {
-              fs.unlinkSync(fotoPath);
+              fs.unlinkSync(fotoPath);  /* borra la imagen previa físicamente */
             }
           } catch (e) {
             console.warn("No se pudo borrar foto previa:", e.message);
           }
         }
 
-        /* nueva ruta pública */
+        /* guardamos la ruta pública de la nueva foto */
         data.foto = `/uploads/animales/${req.file.filename}`;
       }
 
@@ -79,12 +80,12 @@ class AnimalesController {
       const actual = await service.obtenerPorId(id);
 
       if (actual && actual.foto) {
-        /* unir "public" con la ruta */
-        const fotoPath = path.join(process.cwd(), "public", actual.foto);
+        /* unir la ruta raíz del proyecto con el path real del archivo */
+        const fotoPath = path.join(process.cwd(), actual.foto);
 
         try {
           if (fs.existsSync(fotoPath)) {
-            fs.unlinkSync(fotoPath);
+            fs.unlinkSync(fotoPath); /* borra la foto físicamente */
           }
         } catch (e) {
           console.warn("No se pudo borrar foto al eliminar:", e.message);
