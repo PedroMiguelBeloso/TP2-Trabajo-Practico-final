@@ -70,6 +70,24 @@ main { max-width: 960px; margin: 0 auto; padding: 16px; }
   display: grid;
   gap: 8px;
 }
+
+/* Usa este CSS para el contenedor */
+.card-image-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px; /* <- Un leve redondeo, no un círculo */
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Y mantén 'cover' en la imagen */
+.card-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* <- 'cover' funciona mejor en un cuadrado */
+  display: block;
+}
+
 .item {
   display: grid;
   grid-template-columns: 1fr auto;

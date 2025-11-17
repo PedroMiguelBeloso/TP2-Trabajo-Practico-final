@@ -1,9 +1,12 @@
 /* Controlador de animales */
 import AnimalesService from '../servicio/animalesService.js';
+import UsuariosService from '../servicio/usuariosServices.js';
+import { mailAdoptame } from '../servicio/nodemailer.js';
 import fs from "fs";
 import path from "path";
 
 const service = new AnimalesService();
+const usuariosService = new UsuariosService();
 
 class AnimalesController {
 
@@ -15,19 +18,36 @@ class AnimalesController {
     animal ? res.json(animal) : res.status(404).json({ error: 'Animal no encontrado!' });
   };
 
-  crear = async (req, res) => {
+crear = async (req, res) => {
     try {
-      /* req.body contiene campos de texto; si hay archivo multer lo puso en req.file */
       const data = { ...req.body };
-
+      let rutaFisicaFoto = null;
       if (req.file) {
-        /* guardamos la ruta pública que serviremos con express.static */
+        // Ruta para la base de datos (URL web)
         data.foto = `/uploads/animales/${req.file.filename}`;
+        // Ruta fisica para adjuntar el archivo foto al mail
+        rutaFisicaFoto = path.join(process.cwd(), 'uploads', 'animales', req.file.filename);
       }
-
       const nuevo = await service.crear(data);
+      try {
+        const usuarios = await usuariosService.listar();
+        const usuariosConEmail = usuarios.filter(u => u && u.correo);
+        if (usuariosConEmail.length > 0) {
+            const fechaReal = nuevo.fechaIngreso || new Date();
+            const fechaFormateada = new Date(fechaReal).toLocaleDateString('es-AR');
+            const animalParaEmail = {
+                ...data,
+                id: nuevo._id,
+                fechaIngreso: fechaFormateada,
+                pathImagen: rutaFisicaFoto 
+            };
+            console.log("Enviando datos al mailer...", animalParaEmail);
+            await mailAdoptame(animalParaEmail, usuariosConEmail);
+        }
+      } catch (emailError) {
+        console.error("Error en envío de correos:", emailError);
+      }
       res.status(201).json(nuevo);
-
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: err.message });

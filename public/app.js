@@ -66,17 +66,20 @@ let editingAnimalId = null;
 function animalItemTemplate(a) {
 	const li = document.createElement("li");
 	li.className = "item";
-	li.innerHTML = `
-    <div>
-      <div><strong>${a.nombre}</strong> — ${a.especie} (${a.raza})</div>
-      <div class="meta">Edad: ${a.edad} · Vacunado: ${a.vacunado ? "Sí" : "No"} · Adoptado: ${a.adoptado ? "Sí" : "No"}</div>
-      <div class="meta">ID: ${a._id || a.id || "N/A"}</div>
-    </div>
-    <div class="actions">
-      <button class="btn primary">Editar</button>
-      <button class="btn danger">Eliminar</button>
-    </div>
-  `;
+li.innerHTML = `
+	<div class="card-image-container">
+		<img src="${a.foto}" alt="Foto de ${a.nombre}">
+	</div>
+	<div class="card-content">
+		<div><strong>${a.nombre}</strong> — ${a.especie} (${a.raza})</div>
+		<div class="meta">Edad: ${a.edad} · Vacunado: ${a.vacunado ? "Sí" : "No"} · Adoptado: ${a.adoptado ? "Sí" : "No"}</div>
+		<div class="meta">ID: ${a._id || a.id || "N/A"}</div>
+	</div>
+	<div class="actions">
+		<button class="btn primary">Editar</button>
+		<button class="btn danger">Eliminar</button>
+	</div>
+`;
 
 	const id = a._id || a.id;
 	const [btnEditar, btnEliminar] = li.querySelectorAll("button");
