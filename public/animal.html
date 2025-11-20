@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ficha del Animal</title>
+  <style>
+      body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+      .card { background: white; padding: 20px; border-radius: 10px; width: 400px; box-shadow: 0 0 10px #ccc; }
+      img { width: 100%; border-radius: 10px; }
+      .label { font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="card">
+    Cargando...
+  </div>
+
+  <script>
+    /*   Obtener el ID desde la URL */
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    /*   no tiene ID, no seguimos */
+    if (!id) {
+      document.getElementById("card").innerHTML = "No se recibió ningún ID.";
+      throw new Error("ID no recibido");
+    }
+
+    /* Hace la petición al backend usando el id*/
+    fetch(`http://localhost:8080/api/animales/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("card").innerHTML =
+        `
+          <img src="${data.foto}" alt="foto">
+          <h2>${data.nombre}</h2>
+          <p><span class="label">Especie:</span> ${data.especie}</p>
+          <p><span class="label">Edad:</span> ${data.edad}</p>
+          <p><span class="label">Raza:</span> ${data.raza}</p>
+          <p><span class="label">Vacunado:</span> ${data.vacunado ? "Sí" : "No"}</p>
+          <p><span class="label">Adoptado:</span> ${data.adoptado ? "Sí" : "No"}</p>
+        `;
+      })
+      .catch(() => {
+        document.getElementById("card").innerHTML = "Error al cargar";
+      });
+  </script>
+
+</body>
+</html>
