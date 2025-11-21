@@ -4,8 +4,7 @@ import UsuariosService from "../servicio/usuariosServices.js";
 import { mailAdoptame } from "../servicio/nodemailer.js";
 import fs from "fs";
 import path from "path";
-
-
+import { validarEdad } from "../utils/validarEdad.js";
 
 const service = new AnimalesService();
 const usuariosService = new UsuariosService();
@@ -24,12 +23,17 @@ class AnimalesController {
   crear = async (req, res) => {
     try {
       const data = { ...req.body };
-      
+
+      /* llamamos a la funcion validarEdad */
+      const resultadoEdad = validarEdad(Number(data.edad));
+      if (!resultadoEdad.valido) {
+        return res.status(400).json({ error: resultadoEdad.error });
+      }
+
       let rutaFisicaFoto = null;
+
       if (req.file) {
-        // Ruta para la base de datos (URL web)
         data.foto = `/uploads/animales/${req.file.filename}`;
-        // Ruta fisica para adjuntar el archivo foto al mail
         rutaFisicaFoto = path.join(
           process.cwd(),
           "uploads",
@@ -37,7 +41,9 @@ class AnimalesController {
           req.file.filename
         );
       }
+
       const nuevo = await service.crear(data);
+
       try {
         const usuarios = await usuariosService.listar();
         const usuariosConEmail = usuarios.filter((u) => u && u.correo);
@@ -58,6 +64,7 @@ class AnimalesController {
       } catch (emailError) {
         console.error("Error en envío de correos:", emailError);
       }
+
       res.status(201).json(nuevo);
     } catch (err) {
       console.error(err);
@@ -70,26 +77,29 @@ class AnimalesController {
       const { id } = req.params;
       const data = { ...req.body };
 
-      /* Si subieron nueva foto, borramos la anterior del disco (si es que existía) */
+      /* llamamos a la funcion validarEdad */
+      if (data.edad !== undefined) {
+        const resultadoEdad = validarEdad(Number(data.edad));
+        if (!resultadoEdad.valido) {
+          return res.status(400).json({ error: resultadoEdad.error });
+        }
+      }
+
+      // Si subieron nueva foto
       if (req.file) {
-        /* obtener animal actual para saber si tenía foto previa */
         const actual = await service.obtenerPorId(id);
 
         if (actual && actual.foto) {
-          /* actual foto tiene forma va a:  /uploads/animales/archivo.png  
-             La concatenamos directo a la raíz del proyecto  */
           const fotoPath = path.join(process.cwd(), actual.foto);
-
           try {
             if (fs.existsSync(fotoPath)) {
-              fs.unlinkSync(fotoPath); /* borra la imagen previa físicamente */
+              fs.unlinkSync(fotoPath);
             }
           } catch (e) {
             console.warn("No se pudo borrar foto previa:", e.message);
           }
         }
 
-        /* guardamos la ruta pública de la nueva foto */
         data.foto = `/uploads/animales/${req.file.filename}`;
       }
 
@@ -105,16 +115,14 @@ class AnimalesController {
     try {
       const { id } = req.params;
 
-      /* obtener animal para borrar foto física si existe */
       const actual = await service.obtenerPorId(id);
 
       if (actual && actual.foto) {
-        /* unir la ruta raíz del proyecto con el path real del archivo */
         const fotoPath = path.join(process.cwd(), actual.foto);
 
         try {
           if (fs.existsSync(fotoPath)) {
-            fs.unlinkSync(fotoPath); /* borra la foto físicamente */
+            fs.unlinkSync(fotoPath);
           }
         } catch (e) {
           console.warn("No se pudo borrar foto al eliminar:", e.message);
