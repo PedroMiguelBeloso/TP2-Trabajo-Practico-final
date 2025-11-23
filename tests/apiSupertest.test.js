@@ -27,6 +27,8 @@ describe("SUPERTEST - Pruebas de API Adopciones", function () {
         const response = await request.get("/api/animales");
         console.log("GET animales:", response.status, response.body);
         expect(response.status).to.equal(200);
+        /* Si el estatus es 200 quiere decir que esta bien  */
+        /* Esto retorna una lista de animales registrados */
     });
 
     it("POST /api/usuarios → debería crear un usuario", async () => {
@@ -42,6 +44,8 @@ describe("SUPERTEST - Pruebas de API Adopciones", function () {
         console.log("POST usuarios:", response.status, response.body);
 
         expect(response.status).to.equal(201);
+        /* Chequea que el estatus sea 201 lo cual esta bien */
+        /* Esto indica que el usuario fue creado exitosamente en la db */
     });
 
 });
