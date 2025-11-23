@@ -26,7 +26,7 @@ describe("SUPERTEST - Pruebas de API Adopciones", function () {
     it("GET /api/animales → debería devolver una lista y status 200", async () => {
         const response = await request.get("/api/animales");
         console.log("GET animales:", response.status, response.body);
-        expect(response.status).to.equal(200);
+        expect(response.status).to.equal(200);/* si pasa por aca y va bien, mocha lo tilda como aprobado. */
         /* Si el estatus es 200 quiere decir que esta bien  */
         /* Esto retorna una lista de animales registrados */
     });
@@ -43,7 +43,7 @@ describe("SUPERTEST - Pruebas de API Adopciones", function () {
         const response = await request.post("/api/usuarios").send(usuario);
         console.log("POST usuarios:", response.status, response.body);
 
-        expect(response.status).to.equal(201);
+        expect(response.status).to.equal(201);/* si pasa por aca y va bien, mocha lo tilda como aprobado. */
         /* Chequea que el estatus sea 201 lo cual esta bien */
         /* Esto indica que el usuario fue creado exitosamente en la db */
     });
