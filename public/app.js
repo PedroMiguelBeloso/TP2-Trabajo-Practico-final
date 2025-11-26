@@ -71,7 +71,7 @@ li.innerHTML = `
 		<img src="${a.foto}" alt="Foto de ${a.nombre}">
 	</div>
 	<div class="card-content">
-		<div><strong>${a.nombre}</strong> — ${a.especie} (${a.raza})</div>
+		<div><strong>${a.nombre}</strong> — ${a.especie} ${a.sexo} (${a.raza})</div>
 		<div class="meta">Edad: ${a.edad} · Vacunado: ${a.vacunado ? "Sí" : "No"} · Adoptado: ${a.adoptado ? "Sí" : "No"}</div>
 		<div class="meta">ID: ${a._id || a.id || "N/A"}</div>
 	</div>
@@ -103,6 +103,7 @@ li.innerHTML = `
 
 		formEditarAnimal.nombre.value = a.nombre || "";
 		formEditarAnimal.especie.value = a.especie || "";
+		formEditarAnimal.sexo.value = a.sexo || "";
 		formEditarAnimal.edad.value = a.edad ?? "";
 		formEditarAnimal.raza.value = a.raza || "";
 		formEditarAnimal.vacunado.value = a.vacunado ? "true" : "false";

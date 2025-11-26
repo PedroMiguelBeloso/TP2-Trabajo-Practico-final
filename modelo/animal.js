@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const AnimalSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
   especie: { type: String, required: true },
+  sexo: { type: String, required: true },
   edad: { type: Number, required: true },
   raza: { type: String, required: true },
   vacunado: { type: Boolean, required: true },

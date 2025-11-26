@@ -37,6 +37,7 @@ const generarHtmlMascota = (mascota) => {
             <h2 style="text-align: center;">Conoce a ${mascota.nombre}</h2>
             <h4 style="text-align: center;">${mascota.especie}</h4>
             <p><strong>Raza:</strong> ${mascota.raza}</p>
+            <p><strong>Sexo:</strong> ${mascota.sexo}</p>
             <p><strong>Edad:</strong> ${mascota.edad}</p>
             <p><strong>Vacunado:</strong> ${mascota.vacunado ? `Si` : `No`}</p>
             <p><strong>Fecha de ingreso:</strong> ${mascota.fechaIngreso}</p>
